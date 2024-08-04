@@ -1,0 +1,119 @@
+version: '1.0'
+services:
+  survey-service:
+    build:
+      context: ./survey-service
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - PORT=${SURVEY_SERVICE_PORT}
+      - MONGO_ATLAS_URI=${MONGO_ATLAS_URI}
+    ports:
+      - "${SURVEY_SERVICE_PORT}:${SURVEY_SERVICE_PORT}"
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  user-service:
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - PORT=${USER_SERVICE_PORT}
+      - MONGO_ATLAS_URI=${MONGO_ATLAS_URI}
+    ports:
+      - "${USER_SERVICE_PORT}:${USER_SERVICE_PORT}"
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  question-service:
+    build:
+      context: ./question-service
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - PORT=${QUESTION_SERVICE_PORT}
+    ports:
+      - "${QUESTION_SERVICE_PORT}:${QUESTION_SERVICE_PORT}"
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  response-service:
+    build:
+      context: ./response-service
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - PORT=${RESPONCE_SERVICE_PORT}
+    ports:
+      - "${RESPONCE_SERVICE_PORT}:${RESPONCE_SERVICE_PORT}"
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  notification-service:
+    build:
+      context: ./notification-service
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - PORT=${NOTIFICATION_SERVICE_PORT}
+    ports:
+      - "${NOTIFICATION_SERVICE_PORT}:${NOTIFICATION_SERVICE_PORT}"
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  analytics-service:
+    build:
+      context: ./analytics-service
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - PORT=${ANALYTICS_SERVICE_PORT}
+    ports:
+      - "${ANALYTICS_SERVICE_PORT}:${ANALYTICS_SERVICE_PORT}"
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - PORT=${CLIENT_PORT}
+    ports:
+      - "${CLIENT_PORT}:${CLIENT_PORT}"
+    networks:
+      - app-network
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: survey_db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+volumes:
+  db-data:
+
+networks:
+  app-network:
+    driver: bridge
