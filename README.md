@@ -22,7 +22,7 @@ The application is composed of several microservices:
 
 - **User Service**: Manages user authentication, registration, and profile management.
 - **Survey Service**: Handles creation, management, and retrieval of surveys. Each survey can consist of multiple questions.
-- **UQuestion Service**: Manages individual questions within surveys. This service handles creating, updating, deleting, and retrieving questions.
+- **Question Service**: Manages individual questions within surveys. This service handles creating, updating, deleting, and retrieving questions.
 - **Response Service**: Stores responses submitted by users for each survey/question.
 - **Analytics Service**: Provides analytics and insights based on the responses collected from users.
 - **Notification Service**: Sends notifications to users, such as reminders to complete a survey or notifications of new surveys available.
